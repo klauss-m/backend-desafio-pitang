@@ -5,13 +5,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "tsdn src",
-    "build": "tsc -p tsconfig.prod.json"
+    "build": "tsc -p tsconfig.prod.json",
+    "test": "jest --passWithNoTests --coverage --config .jestrc.json"
   },
   "dependencies": {},
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
-    "ts-node-dev": "^1.1.8",
-    "typescript": "^4.6.3",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "eslint": "^8.13.0",
@@ -20,6 +20,10 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.4",
-    "prettier": "^2.6.2"
+    "jest": "^27.5.1",
+    "prettier": "^2.6.2",
+    "ts-jest": "^27.1.4",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.3"
   }
 }
