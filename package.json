@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "tsdn src",
     "build": "tsc -p tsconfig.prod.json",
-    "test": "jest --passWithNoTests --coverage --config .jestrc.json"
+    "test": "jest --passWithNoTests --coverage --config .jestrc.json",
+    "prepare": "husky install"
   },
   "dependencies": {},
   "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
     "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
@@ -20,7 +23,9 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jest": "^26.1.4",
+    "husky": "^7.0.4",
     "jest": "^27.5.1",
+    "lint-staged": "^12.3.7",
     "prettier": "^2.6.2",
     "ts-jest": "^27.1.4",
     "ts-node-dev": "^1.1.8",
