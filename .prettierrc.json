@@ -1,0 +1,21 @@
+{
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 100,
+  "endOfLine": "lf",
+  "trailingComma": "all",
+  "jsxSingleQuote": true,
+  "singleAttributePerLine": true,
+  "overrides": [
+    {
+      "files": [
+        "*.json",
+        "*.jsonc",
+        "*.rc"
+      ],
+      "options": {
+        "parser": "json-stringify"
+      }
+    }
+  ]
+}
