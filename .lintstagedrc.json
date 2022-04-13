@@ -1,10 +1,10 @@
 {
-  ".(js|ts)": [
+  "*.(js|ts)": [
     "eslint --fix",
     "prettier --write",
     "jest --bail --findRelatedTests --config .jestrc.json"
   ],
-  ".json": [
+  "*.json": [
     "prettier --write"
   ]
 }
