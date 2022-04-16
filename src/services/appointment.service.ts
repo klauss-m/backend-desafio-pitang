@@ -1,7 +1,13 @@
-import { Appointment } from '@prisma/client';
 import { DateTime } from 'luxon';
 import { validate, IsAlpha, IsDateString, IsString, Length } from 'class-validator';
 import { prisma } from '../db/prisma';
+
+type AppointmentInput = {
+  name: string;
+  dateOfBirth: string;
+  appointmentDate: string;
+  attendance: boolean;
+};
 
 class AppointmentValidator {
   @IsString()
@@ -26,7 +32,7 @@ export async function getAppointments() {
   return appointments;
 }
 
-export async function postAppointment(data: Appointment) {
+export async function postAppointment(data: AppointmentInput) {
   const input = {} as any;
   input.name = data.name;
   input.dateOfBirth = new Date(data.dateOfBirth);
@@ -35,11 +41,11 @@ export async function postAppointment(data: Appointment) {
   return registry;
 }
 
-export async function appointmentValidation(data: Appointment) {
+export async function appointmentValidation(data: AppointmentInput) {
   const val = new AppointmentValidator();
   val.name = data.name;
-  val.dateOfBirth = data.dateOfBirth.toString();
-  val.appointmentDate = data.appointmentDate.toString();
+  val.dateOfBirth = data.dateOfBirth;
+  val.appointmentDate = data.appointmentDate;
 
   const validation = await validate(val);
   return validation;
