@@ -3,6 +3,7 @@ import { validate, IsAlpha, IsDateString, IsString, Length } from 'class-validat
 import { prisma } from '../db/prisma';
 
 type AppointmentInput = {
+  id: string;
   name: string;
   dateOfBirth: string;
   appointmentDate: string;
@@ -49,4 +50,17 @@ export async function appointmentValidation(data: AppointmentInput) {
 
   const validation = await validate(val);
   return validation;
+}
+
+export async function patchAppointment(data: AppointmentInput, id: string) {
+  const input = {} as any;
+  input.name = data.name;
+  input.dateOfBirth = new Date(data.dateOfBirth);
+  input.appointmentDate = new Date(data.appointmentDate);
+  input.attendance = data.attendance;
+  const registry = await prisma.appointment.update({
+    where: { id },
+    data: input,
+  });
+  return registry;
 }
