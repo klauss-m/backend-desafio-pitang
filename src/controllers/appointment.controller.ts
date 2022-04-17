@@ -4,6 +4,7 @@ import {
   getAppointments,
   patchAppointment,
   postAppointment,
+  patchAppointmentValidation,
 } from '../services/appointment.service';
 
 export async function appointmentsList(req: Request, res: Response) {
@@ -35,7 +36,7 @@ export async function appointmentCreate(req: Request, res: Response) {
 }
 
 export async function appointmentUpdate(req: Request, res: Response) {
-  const validation = await appointmentValidation(req.body);
+  const validation = await patchAppointmentValidation(req.body);
   const { id } = req.params;
   if (validation.length) {
     return res.status(400).json({
