@@ -1,8 +1,10 @@
+/* eslint-disable max-classes-per-file */
 import { DateTime } from 'luxon';
-import { validate, IsAlpha, IsDateString, IsString, Length } from 'class-validator';
+import { validate, IsAlpha, IsDateString, IsString, Length, IsBoolean } from 'class-validator';
 import { prisma } from '../db/prisma';
 
 type AppointmentInput = {
+  id: string;
   name: string;
   dateOfBirth: string;
   appointmentDate: string;
@@ -20,6 +22,11 @@ class AppointmentValidator {
 
   @IsDateString({ message: 'Must contain a valid date.' })
   appointmentDate!: string;
+}
+
+class AppointmentPatchValidator {
+  @IsBoolean()
+  attendance!: boolean;
 }
 
 export async function getAppointments() {
@@ -49,4 +56,31 @@ export async function appointmentValidation(data: AppointmentInput) {
 
   const validation = await validate(val);
   return validation;
+}
+
+export async function patchAppointmentValidation(data: AppointmentInput) {
+  const val = new AppointmentPatchValidator();
+  val.attendance = data.attendance;
+
+  const validation = await validate(val);
+  return validation;
+}
+
+export async function patchAppointment(data: Partial<AppointmentInput>, id: string) {
+  const input = {} as any;
+  input.name = data.name ?? undefined;
+  input.dateOfBirth = data.dateOfBirth ? new Date(data.dateOfBirth) : undefined;
+  input.appointmentDate = data.appointmentDate ? new Date(data.appointmentDate) : undefined;
+  input.attendance = data.attendance ?? undefined;
+  const appointment = await prisma.appointment.findFirst({
+    where: { id },
+  });
+  if (!appointment) {
+    throw new Error('Appointment not found.');
+  }
+  const registry = await prisma.appointment.update({
+    where: { id },
+    data: input,
+  });
+  return registry;
 }

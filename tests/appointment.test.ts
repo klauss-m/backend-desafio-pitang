@@ -37,3 +37,16 @@ describe('postAppointment', () => {
     expect(JSON.stringify(result.body)).toEqual(JSON.stringify(appointmentFixtureFixed));
   });
 });
+
+describe('updateAppointment', () => {
+  it('should successfully update an appointment', async () => {
+    const updateAppointmentMock = jest.spyOn(appointmentService, 'patchAppointment');
+    updateAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
+    const unit = supertest(server);
+    const result = await unit.patch(`/appointments/${appointmentFixtureFixed.id}`).send({
+      attendance: true,
+    });
+    expect(result.statusCode).toBe(200);
+    expect(JSON.stringify(result.body)).toEqual(JSON.stringify(appointmentFixtureFixed));
+  });
+});
