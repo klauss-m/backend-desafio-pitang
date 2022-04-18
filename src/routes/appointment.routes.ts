@@ -1,9 +1,7 @@
 import { Router } from 'express';
-import {
-  appointmentCreate,
-  appointmentsList,
-  appointmentUpdate,
-} from '../controllers/appointment.controller';
+import { appointmentsList } from '../controllers/get-appointment.controller';
+import { appointmentUpdate } from '../controllers/patch-appointment.controller';
+import { appointmentCreate } from '../controllers/post-appointment.controller';
 
 const appointmentRouter = Router();
 
