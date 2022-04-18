@@ -5,6 +5,7 @@ import {
   patchAppointment,
   postAppointment,
   patchAppointmentValidation,
+  dateLimiter,
 } from '../services/appointment.service';
 
 export async function appointmentsList(req: Request, res: Response) {
@@ -27,6 +28,14 @@ export async function appointmentCreate(req: Request, res: Response) {
       }),
     });
   }
+
+  try {
+    await dateLimiter(req.body);
+  } catch (err) {
+    const error = err as Error;
+    return res.status(400).json({ message: error.message });
+  }
+
   try {
     const insert = await postAppointment(req.body);
     return res.status(201).json(insert);
