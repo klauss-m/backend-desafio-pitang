@@ -3,6 +3,9 @@ name: test
 on:
   - pull_request
 
+env:
+  DATABASE_URL: hue
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,11 +20,6 @@ jobs:
 
       - name: install
         run: yarn install
-
-      - name: create env
-        run: |
-          touch .env
-          echo DATABASE_URL=hue >> .env
 
       - name: run tests
         run: yarn test
