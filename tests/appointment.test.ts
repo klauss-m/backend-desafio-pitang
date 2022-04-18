@@ -16,6 +16,7 @@ describe('appointment', () => {
   it('returns a valid list of appointments', async () => {
     const getAppointmentsMock = jest.spyOn(appointmentService, 'getAppointments');
     getAppointmentsMock.mockResolvedValue(appointmentGetFixture);
+
     const unit = supertest(server);
     const result = await unit.get('/appointments');
     expect(result.statusCode).toBe(200);
@@ -27,6 +28,9 @@ describe('postAppointment', () => {
   it('should successfully create an appointment', async () => {
     const postAppointmentMock = jest.spyOn(appointmentService, 'postAppointment');
     postAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
+    const appointmentDateMock = jest.spyOn(appointmentService, 'dateLimiter');
+    appointmentDateMock.mockImplementationOnce(jest.fn());
+
     const unit = supertest(server);
     const result = await unit.post('/appointments/new').send({
       name: 'Raphael',
@@ -36,12 +40,32 @@ describe('postAppointment', () => {
     expect(result.statusCode).toBe(201);
     expect(JSON.stringify(result.body)).toEqual(JSON.stringify(appointmentFixtureFixed));
   });
+
+  it('should return a bad request when time is not available', async () => {
+    const postAppointmentMock = jest.spyOn(appointmentService, 'postAppointment');
+    postAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
+    const appointmentDateMock = jest.spyOn(appointmentService, 'dateLimiter');
+    appointmentDateMock.mockImplementationOnce(() => {
+      throw new Error('Date not available.');
+    });
+
+    const unit = supertest(server);
+    const result = await unit.post('/appointments/new').send({
+      name: 'Raphael',
+      dateOfBirth: new Date('11/07/1990'),
+      appointmentDate: new Date('2020-02-08 09:30'),
+    });
+    expect(appointmentDateMock).toHaveBeenCalled();
+    expect(result.statusCode).toBe(400);
+    expect(JSON.stringify(result.body)).toEqual(JSON.stringify({ message: 'Date not available.' }));
+  });
 });
 
 describe('updateAppointment', () => {
   it('should successfully update an appointment', async () => {
     const updateAppointmentMock = jest.spyOn(appointmentService, 'patchAppointment');
     updateAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
+
     const unit = supertest(server);
     const result = await unit.patch(`/appointments/${appointmentFixtureFixed.id}`).send({
       attendance: true,
