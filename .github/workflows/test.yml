@@ -3,6 +3,9 @@ name: test
 on:
   - pull_request
 
+env:
+  DATABASE_URL: postgresql://hue
+
 jobs:
   test:
     runs-on: ubuntu-latest

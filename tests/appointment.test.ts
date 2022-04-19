@@ -51,6 +51,25 @@ describe('postAppointment', () => {
     postAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
     const appointmentDateMock = jest.spyOn(dateLimiter, 'dateLimiter');
     appointmentDateMock.mockImplementationOnce(() => {
+      throw new Error('Time not available.');
+    });
+
+    const unit = supertest(server);
+    const result = await unit.post('/appointments/new').send({
+      name: 'Raphael',
+      dateOfBirth: new Date('11/07/1990'),
+      appointmentDate: new Date('2020-02-08 09:30'),
+    });
+    expect(appointmentDateMock).toHaveBeenCalled();
+    expect(result.statusCode).toBe(400);
+    expect(JSON.stringify(result.body)).toEqual(JSON.stringify({ message: 'Time not available.' }));
+  });
+
+  it('should return a bad request when date is not available', async () => {
+    const postAppointmentMock = jest.spyOn(postAppointments, 'postAppointment');
+    postAppointmentMock.mockResolvedValue(appointmentFixtureFixed);
+    const appointmentDateMock = jest.spyOn(dateLimiter, 'dateLimiter');
+    appointmentDateMock.mockImplementationOnce(() => {
       throw new Error('Date not available.');
     });
 
