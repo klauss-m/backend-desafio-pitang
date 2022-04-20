@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsdn src",
+    "dev": "tsnd src",
     "build": "tsc -p tsconfig.prod.json",
     "test": "jest --passWithNoTests --coverage --config .jestrc.json",
     "prepare": "husky install"
