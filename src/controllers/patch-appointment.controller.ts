@@ -15,12 +15,12 @@ export async function appointmentUpdate(req: Request, res: Response) {
   }
   try {
     const insert = await patchAppointment(req.body, id);
-    return res.status(200).json(insert);
+    return res.status(200).json({ message: 'Appointment updated.', attendance: insert.attendance });
   } catch (err) {
     const error = err as Error;
     if (error.message === 'Appointment not found.') {
       return res.status(404).json({ message: error.message });
     }
-    return res.status(400).json({ message: 'Failed to update appointment.' });
+    return res.status(500).json({ message: 'Database error.' });
   }
 }

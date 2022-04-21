@@ -6,7 +6,7 @@ export async function patchAppointment(data: Partial<AppointmentInput>, id: stri
   input.name = data.name ?? undefined;
   input.dateOfBirth = data.dateOfBirth ? new Date(data.dateOfBirth) : undefined;
   input.appointmentDate = data.appointmentDate ? new Date(data.appointmentDate) : undefined;
-  input.attendance = data.attendance ?? undefined;
+  input.attendance = data.attendance;
   const appointment = await prisma.appointment.findFirst({
     where: { id },
   });
