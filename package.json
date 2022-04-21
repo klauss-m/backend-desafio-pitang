@@ -4,12 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "tsdn src",
+    "dev": "tsnd src",
     "build": "tsc -p tsconfig.prod.json",
     "test": "jest --passWithNoTests --coverage --config .jestrc.json",
     "prepare": "husky install"
   },
   "dependencies": {
+    "@faker-js/faker": "^6.1.2",
     "@prisma/client": "^3.12.0",
     "class-validator": "^0.13.2",
     "cors": "^2.8.5",

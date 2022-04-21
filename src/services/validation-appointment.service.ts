@@ -11,7 +11,7 @@ class AppointmentValidator {
   @IsDateString({ message: 'Must contain a valid date.' })
   dateOfBirth!: string;
 
-  @IsDateString({ message: 'Must contain a valid date.' })
+  @IsDateString({ message: 'Must contain a valid date and time.' })
   appointmentDate!: string;
 }
 

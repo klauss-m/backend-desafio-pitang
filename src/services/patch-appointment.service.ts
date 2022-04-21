@@ -15,7 +15,7 @@ export async function patchAppointment(data: Partial<AppointmentInput>, id: stri
   }
   const registry = await prisma.appointment.update({
     where: { id },
-    data: input,
+    data: { attendance: input.attendance },
   });
   return registry;
 }

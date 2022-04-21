@@ -4,10 +4,8 @@ import { prisma } from '../db/prisma';
 
 export async function dateLimiter(data: AppointmentInput) {
   const { appointmentDate } = data;
-  const minDate = DateTime.fromJSDate(new Date(appointmentDate)).toFormat('dd/LL/yyyy TT');
-  const maxDate = DateTime.fromJSDate(new Date(appointmentDate))
-    .plus({ minutes: 30 })
-    .toFormat('dd/LL/yyyy TT');
+  const minDate = DateTime.fromJSDate(new Date(appointmentDate)).toJSDate();
+  const maxDate = DateTime.fromJSDate(new Date(appointmentDate)).plus({ minutes: 30 }).toJSDate();
 
   const limitTwenty = await prisma.appointment.findMany({
     where: {
@@ -24,24 +22,17 @@ export async function dateLimiter(data: AppointmentInput) {
 
   const dateConsult = await prisma.appointment.findMany({
     where: {
-      OR: [
-        {
-          appointmentDate: {
-            equals: new Date(minDate),
-          },
-        },
-        {
-          appointmentDate: {
-            equals: new Date(maxDate),
-          },
-        },
-      ],
+      appointmentDate: {
+        gte: minDate,
+        lte: maxDate,
+      },
     },
   });
+  const dates = dateConsult.map((e) =>
+    DateTime.fromJSDate(e.appointmentDate).toFormat('yyyy-LL-dd TT'),
+  );
 
-  const dates = dateConsult.map((e) => e.appointmentDate);
-
-  if (dates.length === 2 || dates.includes(new Date(appointmentDate))) {
+  if (dates.length === 2 || dates.includes(appointmentDate)) {
     throw new Error('Time not available.');
   }
 }
