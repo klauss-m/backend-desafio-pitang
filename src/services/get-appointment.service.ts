@@ -11,6 +11,6 @@ export async function getAppointments() {
     }));
     return appointments;
   } catch (err) {
-    throw new Error('Failed to get appointments.');
+    throw new Error('Database error.');
   }
 }

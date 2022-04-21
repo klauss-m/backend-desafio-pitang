@@ -19,12 +19,14 @@ describe('get-appointment', () => {
   });
 
   it('should fail when there is a database error', async () => {
-    prisma.appointment.findMany = jest.fn().mockRejectedValue(true);
+    prisma.appointment.findMany = jest.fn().mockImplementation(() => {
+      throw new Error('Database error.');
+    });
 
     const unit = supertest(server);
     const result = await unit.get('/appointments');
 
     expect(result.statusCode).toBe(500);
-    expect(result.body).toEqual({ message: 'Failed to get appointments.' });
+    expect(result.body).toEqual({ message: 'Database error.' });
   });
 });
