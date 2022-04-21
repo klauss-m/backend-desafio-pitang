@@ -1,9 +1,7 @@
 import supertest from 'supertest';
-import { Appointment } from '@prisma/client';
 import { server } from '../src/server';
 import { prisma } from '../src/db/prisma';
-import getAppointmentDbFixture from './fixtures/get-appointment.db';
-import getAppointmentEndpointFixture from './fixtures/get-appointment.endpoint.json';
+import { generateValidList, generateExpectedList } from './fixtures/get-appointment.fixture';
 
 describe('get-appointment', () => {
   beforeEach(() => {
@@ -11,15 +9,13 @@ describe('get-appointment', () => {
   });
 
   it('should return a list of all appointments', async () => {
-    prisma.appointment.findMany = jest
-      .fn()
-      .mockResolvedValue(getAppointmentDbFixture as unknown as Appointment);
+    prisma.appointment.findMany = jest.fn().mockResolvedValue(generateValidList());
 
     const unit = supertest(server);
     const result = await unit.get('/appointments');
 
     expect(result.statusCode).toBe(200);
-    expect(result.body).toEqual(getAppointmentEndpointFixture);
+    expect(result.body).toEqual(generateExpectedList());
   });
 
   it('should fail when there is a database error', async () => {
