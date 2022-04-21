@@ -6,6 +6,10 @@ import getAppointmentDbFixture from './fixtures/get-appointment.db';
 import getAppointmentEndpointFixture from './fixtures/get-appointment.endpoint.json';
 
 describe('get-appointment', () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it('should return a list of all appointments', async () => {
     prisma.appointment.findMany = jest
       .fn()
