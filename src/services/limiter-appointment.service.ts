@@ -1,4 +1,5 @@
 import { DateTime } from 'luxon';
+import { Appointment } from '@prisma/client';
 import { AppointmentInput } from '../types';
 import { prisma } from '../db/prisma';
 
@@ -28,7 +29,7 @@ export async function dateLimiter(data: AppointmentInput) {
       },
     },
   });
-  const dates = dateConsult.map((e) =>
+  const dates = dateConsult.map((e: Appointment) =>
     DateTime.fromJSDate(e.appointmentDate).toFormat('yyyy-LL-dd TT'),
   );
 
