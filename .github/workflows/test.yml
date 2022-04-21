@@ -1,7 +1,10 @@
 name: test
 
 on:
-  - pull_request
+  push:
+    branches:
+      - main
+  pull_request:
 
 env:
   DATABASE_URL: postgresql://hue
