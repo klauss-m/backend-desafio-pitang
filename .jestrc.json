@@ -11,7 +11,8 @@
   },
   "collectCoverageFrom": [
     "src/**/*.(ts|js)",
-    "!**/index.(ts|js)"
+    "!**/index.(ts|js)",
+    "!src/middleware/**"
   ],
   "coveragePathIgnorePatterns": [
     "node_modules"

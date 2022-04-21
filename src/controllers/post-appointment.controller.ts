@@ -33,6 +33,6 @@ export async function appointmentCreate(req: Request, res: Response) {
     const error = err as Error;
     return res
       .status(['Date not available.', 'Time not available.'].includes(error.message) ? 400 : 500)
-      .json({ message: error.message ?? 'Internal server error.' });
+      .json({ message: error.message });
   }
 }
