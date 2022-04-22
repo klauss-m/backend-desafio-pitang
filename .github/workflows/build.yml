@@ -21,10 +21,12 @@ jobs:
         run: npm install
 
       - name: create env
-        uses: finnp/create-file-action@master
         env:
-          FILE_NAME: .env
-          FILE_DATA: ${{secrets.DATABASE_URL}}
+          DATABASE_URL: ${{secrets.DATABASE_URL}}
+        run: |
+          touch .env
+          echo $DATABASE_URL >> .env
+          cat .env
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
