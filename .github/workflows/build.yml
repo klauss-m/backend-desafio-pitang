@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  DATABASE_URL: ${{secrets.DATABASE_URL}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,14 +22,6 @@ jobs:
 
       - name: install
         run: npm install
-
-      - name: create env
-        env:
-          DATABASE_URL: ${{secrets.DATABASE_URL}}
-        run: |
-          touch .env
-          echo $DATABASE_URL >> .env
-          cat .env
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
