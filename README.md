@@ -2,8 +2,6 @@
 
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=klauss-m_backend-desafio-pitang&metric=coverage)](https://sonarcloud.io/summary/new_code?id=klauss-m_backend-desafio-pitang)
 
-##
-
 Diante do cenário atual, existe uma demanda gigante de pessoas para tomar a vacina para
 o COVID-19. E com isso nossa cidade está precisando de um simples sistema para realizar
 os agendamentos.
