@@ -31,17 +31,17 @@ jobs:
 
       - name: heroku login
         env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+          HEROKU_KEY: ${{secrets.HEROKU_API_KEY}}
           HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
           HEROKU_APP_NAME: ${{secrets.HEROKU_APP_NAME}}
         run: |
           touch .netrc
           echo "machine api.heroku.com"
           echo "  login $HEROKU_EMAIL"
-          echo "  password $HEROKU_API_KEY"
+          echo "  password $HEROKU_KEY"
           echo "machine git.heroku.com"
           echo "  login $HEROKU_EMAIL"
-          echo "  password $HEROKU_API_KEY"
+          echo "  password $HEROKU_KEY"
           heroku login
           heroku git:remote -a backend-desafio-pitang
           git push heroku main
